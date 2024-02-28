@@ -3,5 +3,6 @@
     <style name="Base.Theme.DicodingSubmitGithubUser" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:windowBackground">@color/black</item>
     </style>
 </resources>
