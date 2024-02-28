@@ -4,44 +4,56 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.fragment.SearchFragment">
 
-  <com.google.android.material.button.MaterialButton
-      android:id="@+id/back_button"
-      android:layout_width="60dp"
-      android:layout_height="60dp"
-      app:icon="@android:drawable/ic_delete"
-      app:iconTint="@color/white"
-      app:iconSize="30sp"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/search_bar_layout"
-      android:layout_margin="16dp" />
-
-  <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/search_bar_layout"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginHorizontal="16dp"
-      android:layout_marginTop="16dp"
-      app:boxCornerRadiusBottomEnd="32dp"
-      app:boxCornerRadiusBottomStart="32dp"
-      app:boxCornerRadiusTopEnd="32dp"
-      app:boxCornerRadiusTopStart="32dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/back_button"
-      app:layout_constraintTop_toTopOf="parent">
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.IconButton.Outlined"
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/hint_github_user_search_field"
-        android:hint="@string/hint_github_user_search_field"
-        android:inputType="textPersonName"
-        android:maxLines="1"
-        android:paddingHorizontal="10dp" />
+        android:padding="14.5dp"
+        android:layout_margin="0dp"
+        android:layout_gravity="center"
+        app:iconTint="@color/material_dynamic_neutral50"
+        app:icon="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/back_button_desc" />
 
-  </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_bar_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="4dp"
+        app:hintEnabled="false"
+        app:boxStrokeWidth="1dp"
+        app:boxBackgroundColor="@color/material_dynamic_neutral90"
+        app:boxStrokeColor="@color/material_dynamic_neutral80"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:layout_constraintStart_toEndOf="@id/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_github_user_search_field"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:drawableTint="@color/black"
+            android:drawablePadding="10dp"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:paddingHorizontal="10dp"
+            android:textSize="12sp"
+            android:padding="12dp"
+            app:hintEnabled="false" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
