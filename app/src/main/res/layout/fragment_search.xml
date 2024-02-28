@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.SearchFragment">
+
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/back_button"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      app:icon="@android:drawable/ic_delete"
+      app:iconTint="@color/white"
+      app:iconSize="30sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/search_bar_layout"
+      android:layout_margin="16dp" />
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/search_bar_layout"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
+      android:layout_marginTop="16dp"
+      app:boxCornerRadiusBottomEnd="32dp"
+      app:boxCornerRadiusBottomStart="32dp"
+      app:boxCornerRadiusTopEnd="32dp"
+      app:boxCornerRadiusTopStart="32dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/back_button"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/hint_github_user_search_field"
+        android:hint="@string/hint_github_user_search_field"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:paddingHorizontal="10dp" />
+
+  </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

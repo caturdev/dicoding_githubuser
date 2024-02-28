@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -24,8 +26,13 @@ class HomeFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    binding.fab.setOnClickListener { v: View ->
+    val fragmentManager = parentFragmentManager
+    val searchFragment = SearchFragment()
 
+    binding.fab.setOnClickListener { v: View ->
+      fragmentManager.commit {
+        replace(R.id.frame_container, searchFragment, HomeFragment::class.java.simpleName)
+      }
     }
   }
 }
