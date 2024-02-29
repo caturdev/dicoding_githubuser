@@ -13,6 +13,9 @@ import com.dicodingsubmit.githubuser.bloc.UserDetailViewModel
 import com.dicodingsubmit.githubuser.data.parcel.User
 import com.dicodingsubmit.githubuser.data.remote.response.UserDetailResponse
 import com.dicodingsubmit.githubuser.databinding.ActivityUserDetailBinding
+import com.dicodingsubmit.githubuser.ui.adapter.UserConnectionPagerAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class UserDetailActivity : AppCompatActivity() {
 
@@ -47,19 +50,19 @@ class UserDetailActivity : AppCompatActivity() {
 
 			val viewPager: ViewPager2 = binding.viewPager
 
-//			val sectionPagerAdapter = FollowPagerAdapter(this)
-//			sectionPagerAdapter.username = githubUser?.username ?: ""
-//
-//			viewPager.adapter = sectionPagerAdapter
-//			val tabs: TabLayout = binding.tabs
-//
-//			TabLayoutMediator(tabs, viewPager) { tab, position ->
-//				tab.text = when (position) {
-//					0 -> "Followers ${user.followers.toString()}"
-//					1 -> "Following ${user.following.toString()}"
-//					else -> ""
-//				}
-//			}.attach()
+			val sectionPagerAdapter = UserConnectionPagerAdapter(this)
+			sectionPagerAdapter.username = githubUser?.username ?: ""
+
+			viewPager.adapter = sectionPagerAdapter
+			val tabs: TabLayout = binding.tabs
+
+			TabLayoutMediator(tabs, viewPager) { tab, position ->
+				tab.text = when (position) {
+					0 -> "Followers ${user.followers.toString()}"
+					1 -> "Following ${user.following.toString()}"
+					else -> ""
+				}
+			}.attach()
 		}
 
 	}
