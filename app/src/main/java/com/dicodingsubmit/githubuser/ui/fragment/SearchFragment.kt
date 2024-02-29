@@ -35,7 +35,31 @@ class SearchFragment : Fragment() {
 
 		binding.toolbar.setNavigationOnClickListener {
 			parentFragmentManager.commit {
-				replace(R.id.frame_container, HomeFragment(), HomeFragment::class.java.simpleName)
+				replace(
+					R.id.frame_container,
+					HomeFragment(),
+					HomeFragment::class.java.simpleName
+				)
+			}
+		}
+
+		binding.searchBar.setOnClickListener {
+			val homeFragment = HomeFragment()
+
+			val usernameSearch = binding.searchBar.text.toString().trim()
+
+			val bundle = Bundle()
+
+			bundle.putString(HomeFragment.EXTRA_USERNAME_SEARCH, usernameSearch)
+
+			homeFragment.arguments = bundle
+
+			parentFragmentManager.commit {
+				replace(
+					R.id.frame_container,
+					homeFragment,
+					HomeFragment::class.java.simpleName
+				)
 			}
 		}
 
