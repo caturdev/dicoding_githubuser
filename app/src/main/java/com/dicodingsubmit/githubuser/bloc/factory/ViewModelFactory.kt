@@ -12,7 +12,7 @@ class ViewModelFactory private constructor(
 	@Suppress("UNCHECKED_CAST")
 	override fun <T : ViewModel> create(modelClass: Class<T>): T {
 		if (modelClass.isAssignableFrom(UserDetailViewModel::class.java)) {
-			return UserDetailViewModel(application) as T
+			return UserDetailViewModel() as T
 		}
 		throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
 	}
