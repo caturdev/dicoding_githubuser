@@ -2,6 +2,7 @@ package com.dicodingsubmit.githubuser.data.local.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -10,21 +11,17 @@ import com.dicodingsubmit.githubuser.data.local.entity.FavEntity
 
 @Dao
 interface FavDao {
-	@Query("SELECT * FROM fav ORDER BY id DESC")
-	fun getFav(): LiveData<List<FavEntity>>
-
-//	@Query("SELECT * FROM fav where bookmarked = 1")
-//	fun getBookmarkedNews(): LiveData<List<FavEntity>>
 
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
-	fun insert(fav: FavEntity)
+	fun insert(note: FavEntity)
 
 	@Update
-	fun updateNews(news: FavEntity)
+	fun update(note: FavEntity)
 
-	@Query("DELETE FROM fav WHERE id = 0")
-	fun deleteAll()
+	@Delete
+	fun delete(note: FavEntity)
 
-//	@Query("SELECT EXISTS(SELECT * FROM fav WHERE title = :title AND bookmarked = 1)")
-//	fun isNewsBookmarked(title: String): Boolean
+	@Query("SELECT * from fav ORDER BY id ASC")
+	fun getAll(): LiveData<List<FavEntity>>
+
 }

@@ -17,10 +17,10 @@ abstract class FavDatabase : RoomDatabase() {
 		private var instance: FavDatabase? = null
 
 		@JvmStatic
-		fun getDatabase(context: Context): FavDatabase = instance ?: synchronized(this) {
+		fun getDatabase(context: Context): FavDatabase = instance ?: synchronized(FavDatabase::class.java) {
 			instance ?: Room.databaseBuilder(
 				context.applicationContext,
-				FavDatabase::class.java, "News.db"
+				FavDatabase::class.java, "fav_database"
 			).build()
 		}
 	}

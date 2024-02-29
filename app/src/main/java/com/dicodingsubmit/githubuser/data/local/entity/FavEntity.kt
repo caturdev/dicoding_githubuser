@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "fav")
 @Parcelize
 class FavEntity(
+
 	@field:ColumnInfo(name = "id")
 	@field:PrimaryKey
 	val id: String,
@@ -21,4 +22,5 @@ class FavEntity(
 
 	@field:ColumnInfo(name = "picture")
 	val picture: String,
+
 ) : Parcelable

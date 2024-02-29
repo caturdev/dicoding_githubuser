@@ -18,10 +18,18 @@ class FavRepo(application: Application) {
 		favDao = db.favDao()
 	}
 
-	fun getFav(): LiveData<List<FavEntity>> = favDao.getFav()
+	fun getFav(): LiveData<List<FavEntity>> = favDao.getAll()
 
-	fun insertFav(fav: FavEntity) = executorService.execute {
-		favDao.insert(fav)
+	fun insert(note: FavEntity) {
+		executorService.execute { favDao.insert(note) }
+	}
+
+	fun delete(note: FavEntity) {
+		executorService.execute { favDao.delete(note) }
+	}
+
+	fun update(note: FavEntity) {
+		executorService.execute { favDao.update(note) }
 	}
 
 }
