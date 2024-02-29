@@ -12,16 +12,19 @@ import com.dicodingsubmit.githubuser.data.local.entity.FavEntity
 @Dao
 interface FavDao {
 
-	@Insert(onConflict = OnConflictStrategy.IGNORE)
-	fun insert(note: FavEntity)
+  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  fun insert(favEntity: FavEntity)
 
-	@Update
-	fun update(note: FavEntity)
+  @Update
+  fun update(favEntity: FavEntity)
 
-	@Delete
-	fun delete(note: FavEntity)
+  @Delete
+  fun delete(favEntity: FavEntity)
 
-	@Query("SELECT * from fav ORDER BY id ASC")
-	fun getAll(): LiveData<List<FavEntity>>
+  @Query("SELECT * from fav ORDER BY id ASC")
+  fun getAll(): LiveData<List<FavEntity>>
+
+  @Query("SELECT * from fav WHERE id = :id")
+  fun getById(id: String): LiveData<List<FavEntity>>
 
 }
