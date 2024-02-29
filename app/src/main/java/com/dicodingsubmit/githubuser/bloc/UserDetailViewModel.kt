@@ -1,9 +1,12 @@
 package com.dicodingsubmit.githubuser.bloc
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dicodingsubmit.githubuser.data.local.FavRepo
+import com.dicodingsubmit.githubuser.data.local.entity.FavEntity
 import com.dicodingsubmit.githubuser.data.remote.response.UserDetailResponse
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.data.remote.retrofit.ApiConfig
@@ -11,7 +14,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserDetailViewModel : ViewModel() {
+class UserDetailViewModel(application: Application) : ViewModel() {
+
+	private val mFavRepo: FavRepo = FavRepo(application)
 
 	private val _user = MutableLiveData<UserDetailResponse>()
 	val user: LiveData<UserDetailResponse> = _user
@@ -24,6 +29,10 @@ class UserDetailViewModel : ViewModel() {
 
 	private val _isLoading = MutableLiveData<Boolean>()
 	val isLoading: LiveData<Boolean> = _isLoading
+
+	fun insert(note: FavEntity) {
+		mFavRepo.insert(note)
+	}
 
 	fun getUserDetail(username: String) {
 		// menampilkan loading indicator

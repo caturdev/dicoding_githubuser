@@ -11,10 +11,13 @@ class ViewModelFactory private constructor(
 
 	@Suppress("UNCHECKED_CAST")
 	override fun <T : ViewModel> create(modelClass: Class<T>): T {
+
 		if (modelClass.isAssignableFrom(UserDetailViewModel::class.java)) {
-			return UserDetailViewModel() as T
+			return UserDetailViewModel(application) as T
 		}
+
 		throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
+
 	}
 
 	companion object {
@@ -23,10 +26,10 @@ class ViewModelFactory private constructor(
 		private var instance: ViewModelFactory? = null
 
 		@JvmStatic
-		fun getInstance(application: Application): ViewModelFactory =
-			instance ?: synchronized(this) {
+		fun getInstance(application: Application): ViewModelFactory = instance ?: synchronized(this) {
 				instance ?: ViewModelFactory(application)
 			}.also { instance = it }
+
 	}
 
 }

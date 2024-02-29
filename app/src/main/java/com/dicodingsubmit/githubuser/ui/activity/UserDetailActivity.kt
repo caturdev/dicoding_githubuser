@@ -7,9 +7,11 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicodingsubmit.githubuser.bloc.UserDetailViewModel
+import com.dicodingsubmit.githubuser.bloc.factory.ViewModelFactory
 import com.dicodingsubmit.githubuser.data.parcel.User
 import com.dicodingsubmit.githubuser.data.remote.response.UserDetailResponse
 import com.dicodingsubmit.githubuser.databinding.ActivityUserDetailBinding
@@ -22,7 +24,9 @@ class UserDetailActivity : AppCompatActivity() {
 	private lateinit var binding: ActivityUserDetailBinding
 	private lateinit var toolbar: Toolbar
 
-	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel>()
+	private lateinit var userDetailViewModel: UserDetailViewModel
+
+//	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel>()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -35,6 +39,8 @@ class UserDetailActivity : AppCompatActivity() {
 
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		supportActionBar?.setDisplayShowHomeEnabled(true)
+
+		userDetailViewModel = obtainViewModel(this@UserDetailActivity)
 
 		val githubUser = if (Build.VERSION.SDK_INT >= 33) {
 			intent.getParcelableExtra(GITHUB_USER, User::class.java)
@@ -89,6 +95,11 @@ class UserDetailActivity : AppCompatActivity() {
 		// show company data
 		binding.company.text = user.company
 
+	}
+
+	private fun obtainViewModel(activity: AppCompatActivity): UserDetailViewModel {
+		val factory = ViewModelFactory.getInstance(activity.application)
+		return ViewModelProvider(activity, factory).get(UserDetailViewModel::class.java)
 	}
 
 	companion object {
