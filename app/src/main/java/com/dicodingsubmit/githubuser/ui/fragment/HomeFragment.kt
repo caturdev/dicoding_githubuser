@@ -6,12 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.R
+import com.dicodingsubmit.githubuser.bloc.MainViewModel
+import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.databinding.FragmentHomeBinding
+import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
 
 class HomeFragment : Fragment() {
 
 	private lateinit var binding: FragmentHomeBinding
+	private val mainViewModel: MainViewModel by viewModels<MainViewModel>()
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -29,11 +36,34 @@ class HomeFragment : Fragment() {
 		val fragmentManager = parentFragmentManager
 		val searchFragment = SearchFragment()
 
-		binding.fab.setOnClickListener { v: View ->
+		mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
+
+		if (arguments != null) {
+			val usernameSearch = arguments?.getString(EXTRA_USERNAME_SEARCH)
+			mainViewModel.getUsers(usernameSearch ?: "")
+		}
+
+		val layoutManager = LinearLayoutManager(activity)
+		binding.rvUser.layoutManager = layoutManager
+
+		val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+		binding.rvUser.addItemDecoration(itemDecoration)
+
+		binding.fab.setOnClickListener {
 			fragmentManager.commit {
 				replace(R.id.frame_container, searchFragment, HomeFragment::class.java.simpleName)
 				addToBackStack(null)
 			}
 		}
+	}
+
+	private fun setUserListData(user: List<UserItemResponse>): Unit {
+		val adapter = UserAdapter()
+		adapter.submitList(user)
+		binding.rvUser.adapter = adapter
+	}
+
+	companion object {
+		const val EXTRA_USERNAME_SEARCH = "extra_username_search"
 	}
 }
