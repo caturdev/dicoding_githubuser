@@ -17,53 +17,60 @@ import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
 
 class HomeFragment : Fragment() {
 
-	private lateinit var binding: FragmentHomeBinding
-	private val mainViewModel: MainViewModel by viewModels<MainViewModel>()
+  private lateinit var binding: FragmentHomeBinding
+  private val mainViewModel: MainViewModel by viewModels<MainViewModel>()
 
-	override fun onCreateView(
-		inflater: LayoutInflater,
-		container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View {
-		// init binding and inflate the layout for this fragment
-		binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-		return binding.root
-	}
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    // init binding and inflate the layout for this fragment
+    binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+    return binding.root
+  }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-		val fragmentManager = parentFragmentManager
-		val searchFragment = SearchFragment()
+    val fragmentManager = parentFragmentManager
+    val searchFragment = SearchFragment()
 
-		mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
+    mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
 
-		if (arguments != null) {
-			val usernameSearch = arguments?.getString(EXTRA_USERNAME_SEARCH)
-			mainViewModel.getUsers(usernameSearch ?: "")
-		}
+    if (arguments != null) {
+      val usernameSearch = arguments?.getString(EXTRA_USERNAME_SEARCH)
+      mainViewModel.getUsers(usernameSearch ?: "")
+    }
 
-		val layoutManager = LinearLayoutManager(activity)
-		binding.rvUser.layoutManager = layoutManager
+    val layoutManager = LinearLayoutManager(activity)
+    binding.rvUser.layoutManager = layoutManager
 
-		val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
-		binding.rvUser.addItemDecoration(itemDecoration)
+    val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+    binding.rvUser.addItemDecoration(itemDecoration)
 
-		binding.fab.setOnClickListener {
-			fragmentManager.commit {
-				replace(R.id.frame_container, searchFragment, HomeFragment::class.java.simpleName)
-				addToBackStack(null)
-			}
-		}
-	}
+    binding.fab.setOnClickListener {
+      fragmentManager.commit {
+        replace(R.id.frame_container, searchFragment, HomeFragment::class.java.simpleName)
+        addToBackStack(null)
+      }
+    }
 
-	private fun setUserListData(user: List<UserItemResponse>): Unit {
-		val adapter = UserAdapter()
-		adapter.submitList(user)
-		binding.rvUser.adapter = adapter
-	}
+    binding.fabGotoFav.setOnClickListener {
+      fragmentManager.commit {
+        replace(R.id.frame_container, FavFragment(), FavFragment::class.java.simpleName)
+        addToBackStack(null)
+      }
+    }
+  }
 
-	companion object {
-		const val EXTRA_USERNAME_SEARCH = "extra_username_search"
-	}
+  private fun setUserListData(user: List<UserItemResponse>) {
+    val adapter = UserAdapter()
+    adapter.submitList(user)
+    binding.rvUser.adapter = adapter
+  }
+
+  companion object {
+    const val EXTRA_USERNAME_SEARCH = "extra_username_search"
+  }
 }
