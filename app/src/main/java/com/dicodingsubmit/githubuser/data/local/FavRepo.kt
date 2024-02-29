@@ -10,26 +10,22 @@ import java.util.concurrent.Executors
 
 class FavRepo(application: Application) {
 
-	private val favDao: FavDao
-	private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+  private val favDao: FavDao
+  private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
-	init {
-		val db = FavDatabase.getDatabase(application)
-		favDao = db.favDao()
-	}
+  init {
+    val db = FavDatabase.getDatabase(application)
+    favDao = db.favDao()
+  }
 
-	fun getFav(): LiveData<List<FavEntity>> = favDao.getAll()
+  fun getFav(): LiveData<List<FavEntity>> = favDao.getAll()
 
-	fun insert(note: FavEntity) {
-		executorService.execute { favDao.insert(note) }
-	}
+  fun getById(id: String): LiveData<List<FavEntity>> = favDao.getById(id)
 
-	fun delete(note: FavEntity) {
-		executorService.execute { favDao.delete(note) }
-	}
+  fun insert(favEntity: FavEntity) = executorService.execute { favDao.insert(favEntity) }
 
-	fun update(note: FavEntity) {
-		executorService.execute { favDao.update(note) }
-	}
+  fun delete(favEntity: FavEntity) = executorService.execute { favDao.delete(favEntity) }
+
+  fun update(favEntity: FavEntity) = executorService.execute { favDao.update(favEntity) }
 
 }
