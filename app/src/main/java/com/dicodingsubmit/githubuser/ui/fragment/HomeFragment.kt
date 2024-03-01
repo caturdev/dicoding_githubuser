@@ -44,6 +44,9 @@ class HomeFragment : Fragment() {
 		val fragmentManager = parentFragmentManager
 		val searchFragment = SearchFragment()
 
+		// loading section
+		binding.lottieLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
+
 		// init theme mode
 		mainViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
 			isDaskMode = isDarkModeActive
@@ -62,7 +65,12 @@ class HomeFragment : Fragment() {
 			if (keyword.isNotEmpty()) mainViewModel.getUsers(keyword ?: "")
 		}
 
-		mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
+		mainViewModel.users.observe(viewLifecycleOwner) { user ->
+			if (user.isNotEmpty()) {
+				setUserListData(user)
+				isLoading(false)
+			}
+		}
 
 		if (arguments != null) {
 			val usernameSearch = arguments?.getString(EXTRA_USERNAME_SEARCH)
@@ -111,6 +119,12 @@ class HomeFragment : Fragment() {
 		val adapter = UserAdapter()
 		adapter.submitList(user)
 		binding.rvUser.adapter = adapter
+	}
+
+	private fun isLoading(condition: Boolean = true): Unit = if (condition) {
+		binding.lottieLoading.visibility = View.VISIBLE
+	} else {
+		binding.lottieLoading.visibility = View.GONE
 	}
 
 	companion object {
