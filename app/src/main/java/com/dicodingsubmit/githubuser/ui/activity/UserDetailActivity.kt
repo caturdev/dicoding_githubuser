@@ -6,144 +6,136 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.UserDetailViewModel
-import com.dicodingsubmit.githubuser.bloc.factory.ViewModelFactory
 import com.dicodingsubmit.githubuser.data.local.entity.FavEntity
 import com.dicodingsubmit.githubuser.data.parcel.User
 import com.dicodingsubmit.githubuser.data.remote.response.UserDetailResponse
 import com.dicodingsubmit.githubuser.databinding.ActivityUserDetailBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserConnectionPagerAdapter
+import com.dicodingsubmit.githubuser.utils.helper.ViewModelHelper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class UserDetailActivity : AppCompatActivity() {
 
-  private lateinit var binding: ActivityUserDetailBinding
-  private lateinit var toolbar: Toolbar
-  private lateinit var userData: UserDetailResponse
-  private lateinit var userFavData: List<FavEntity>
+	private lateinit var binding: ActivityUserDetailBinding
+	private lateinit var toolbar: Toolbar
+	private lateinit var userData: UserDetailResponse
+	private lateinit var userFavData: List<FavEntity>
 
-  private lateinit var userDetailViewModel: UserDetailViewModel
+	private lateinit var userDetailViewModel: UserDetailViewModel
+  
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
 
-//	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel>()
+		binding = ActivityUserDetailBinding.inflate(layoutInflater)
+		setContentView(binding.root)
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
+		toolbar = binding.toolbar
+		setSupportActionBar(toolbar)
 
-    binding = ActivityUserDetailBinding.inflate(layoutInflater)
-    setContentView(binding.root)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+		supportActionBar?.setDisplayShowHomeEnabled(true)
 
-    toolbar = binding.toolbar
-    setSupportActionBar(toolbar)
+		userDetailViewModel = ViewModelHelper.obtainUserDetailViewModel(this@UserDetailActivity)
 
-    supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    supportActionBar?.setDisplayShowHomeEnabled(true)
+		val githubUser = if (Build.VERSION.SDK_INT >= 33) {
+			intent.getParcelableExtra(GITHUB_USER, User::class.java)
+		} else {
+			@Suppress("DEPRECATION")
+			intent.getParcelableExtra(GITHUB_USER)
+		}
 
-    userDetailViewModel = obtainViewModel(this@UserDetailActivity)
+		userDetailViewModel.getUserDetail(githubUser?.username ?: "")
 
-    val githubUser = if (Build.VERSION.SDK_INT >= 33) {
-      intent.getParcelableExtra(GITHUB_USER, User::class.java)
-    } else {
-      @Suppress("DEPRECATION")
-      intent.getParcelableExtra(GITHUB_USER)
-    }
+		userDetailViewModel.user.observe(this) { user ->
+			userData = user
 
-    userDetailViewModel.getUserDetail(githubUser?.username ?: "")
+			setUserData(user)
 
-    userDetailViewModel.user.observe(this) { user ->
-      userData = user
+			val viewPager: ViewPager2 = binding.viewPager
 
-      setUserData(user)
+			val sectionPagerAdapter = UserConnectionPagerAdapter(this)
+			sectionPagerAdapter.username = githubUser?.username ?: ""
 
-      val viewPager: ViewPager2 = binding.viewPager
+			viewPager.adapter = sectionPagerAdapter
+			val tabs: TabLayout = binding.tabs
 
-      val sectionPagerAdapter = UserConnectionPagerAdapter(this)
-      sectionPagerAdapter.username = githubUser?.username ?: ""
+			TabLayoutMediator(tabs, viewPager) { tab, position ->
+				tab.text = when (position) {
+					0 -> "Followers ${user.followers.toString()}"
+					1 -> "Following ${user.following.toString()}"
+					else -> ""
+				}
+			}.attach()
 
-      viewPager.adapter = sectionPagerAdapter
-      val tabs: TabLayout = binding.tabs
+			userDetailViewModel.getFavById(userData.id.toString() ?: "").observe(this) { favData ->
+				userFavData = favData
 
-      TabLayoutMediator(tabs, viewPager) { tab, position ->
-        tab.text = when (position) {
-          0 -> "Followers ${user.followers.toString()}"
-          1 -> "Following ${user.following.toString()}"
-          else -> ""
-        }
-      }.attach()
+				if (favData.isNotEmpty()) {
+					binding.fabFav.setImageResource(R.drawable.baseline_favorite_24)
+				} else {
+					binding.fabFav.setImageResource(R.drawable.baseline_favorite_border_24)
+				}
 
-      userDetailViewModel.getFavById(userData.id.toString() ?: "").observe(this) { favData ->
-        userFavData = favData
+			}
+		}
 
-        if (favData.isNotEmpty()) {
-          binding.fabFav.setImageResource(R.drawable.baseline_favorite_24)
-        } else {
-          binding.fabFav.setImageResource(R.drawable.baseline_favorite_border_24)
-        }
+		binding.fabFav.setOnClickListener {
+			if (userFavData.isNotEmpty()) {
+				userDetailViewModel.deleteFav(
+					FavEntity(
+						userData.id.toString(),
+						userData.name.toString(),
+						userData.login.toString(),
+						userData.avatarUrl.toString(),
+					)
+				)
+			} else {
+				userDetailViewModel.insert(
+					FavEntity(
+						userData.id.toString(),
+						userData.name.toString(),
+						userData.login.toString(),
+						userData.avatarUrl.toString(),
+					)
+				)
+			}
+		}
 
-      }
-    }
+	}
 
-    binding.fabFav.setOnClickListener {
-      if (userFavData.isNotEmpty()) {
-        userDetailViewModel.deleteFav(
-          FavEntity(
-            userData.id.toString(),
-            userData.name.toString(),
-            userData.login.toString(),
-            userData.avatarUrl.toString(),
-          )
-        )
-      } else {
-        userDetailViewModel.insert(
-          FavEntity(
-            userData.id.toString(),
-            userData.name.toString(),
-            userData.login.toString(),
-            userData.avatarUrl.toString(),
-          )
-        )
-      }
-    }
+	private fun setUserData(user: UserDetailResponse): Unit {
 
-  }
+		// menampilkan user avatar
+		Glide
+			.with(binding.photoProfile.context)
+			.load(user.avatarUrl)
+			.into(binding.photoProfile)
 
-  private fun setUserData(user: UserDetailResponse): Unit {
+		binding.photoProfile.visibility = View.VISIBLE
 
-    // menampilkan user avatar
-    Glide
-      .with(binding.photoProfile.context)
-      .load(user.avatarUrl)
-      .into(binding.photoProfile)
+		// show name data
+		binding.name.text = user.name
 
-    binding.photoProfile.visibility = View.VISIBLE
+		// show username data
+		"@${user.login}".also { binding.username.text = it }
 
-    // show name data
-    binding.name.text = user.name
+		// show location data
+		binding.location.text = user.location
 
-    // show username data
-    "@${user.login}".also { binding.username.text = it }
+		// show company data
+		binding.company.text = user.company
 
-    // show location data
-    binding.location.text = user.location
+	}
 
-    // show company data
-    binding.company.text = user.company
+	companion object {
+		@StringRes
+		private val TAB_TITLES = intArrayOf()
 
-  }
-
-  private fun obtainViewModel(activity: AppCompatActivity): UserDetailViewModel {
-    val factory = ViewModelFactory.getInstance(activity.application)
-    return ViewModelProvider(activity, factory).get(UserDetailViewModel::class.java)
-  }
-
-  companion object {
-    @StringRes
-    private val TAB_TITLES = intArrayOf()
-
-    const val GITHUB_USER = "github_user"
-  }
+		const val GITHUB_USER = "github_user"
+	}
 }

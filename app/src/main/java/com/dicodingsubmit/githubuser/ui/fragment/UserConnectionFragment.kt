@@ -6,23 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.bloc.UserDetailViewModel
-import com.dicodingsubmit.githubuser.bloc.factory.ViewModelFactory
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.databinding.FragmentUserConnectionBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
+import com.dicodingsubmit.githubuser.utils.helper.ViewModelHelper
 
 class UserConnectionFragment : Fragment() {
 
 	private lateinit var binding: FragmentUserConnectionBinding
 
 	private lateinit var userDetailViewModel: UserDetailViewModel
-//	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel>()
-
+	
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -38,7 +35,7 @@ class UserConnectionFragment : Fragment() {
 		val username = arguments?.getString(GITHUB_USERNAME)
 		val position = arguments?.getInt(ARG_SECTION_NUMBER)
 
-		userDetailViewModel = obtainViewModel(activity as AppCompatActivity)
+		userDetailViewModel = ViewModelHelper.obtainUserDetailViewModel(activity as AppCompatActivity)
 
 		val layoutManager = LinearLayoutManager(activity)
 		binding.rvUserConnection.layoutManager = layoutManager
@@ -69,11 +66,6 @@ class UserConnectionFragment : Fragment() {
 		val adapter = UserAdapter()
 		adapter.submitList(users)
 		binding.rvUserConnection.adapter = adapter
-	}
-
-	private fun obtainViewModel(activity: AppCompatActivity): UserDetailViewModel {
-		val factory = ViewModelFactory.getInstance(activity.application)
-		return ViewModelProvider(activity, factory).get(UserDetailViewModel::class.java)
 	}
 
 	companion object {
