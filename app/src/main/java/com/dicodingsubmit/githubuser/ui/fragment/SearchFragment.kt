@@ -10,8 +10,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
-import com.dicodingsubmit.githubuser.data.store.SettingPreferences
-import com.dicodingsubmit.githubuser.data.store.dataStore
+import com.dicodingsubmit.githubuser.data.local.entity.HistoryEntity
 import com.dicodingsubmit.githubuser.databinding.FragmentSearchBinding
 
 
@@ -20,7 +19,7 @@ class SearchFragment : Fragment() {
 	private lateinit var binding: FragmentSearchBinding
 
 	private val mainViewModel: MainViewModel by viewModels<MainViewModel> {
-		MainViewModel.Factory(SettingPreferences.getInstance((activity as AppCompatActivity).application.dataStore))
+		MainViewModel.Factory((activity as AppCompatActivity).application)
 	}
 
 	override fun onCreateView(
@@ -62,8 +61,13 @@ class SearchFragment : Fragment() {
 
 			homeFragment.arguments = bundle
 
+			// save keyword at data store: for init keyword search when start app
 			mainViewModel.saveKeyword(usernameSearch)
 
+			// save search history
+			mainViewModel.saveHistory(HistoryEntity(0, usernameSearch))
+
+			// back to home fragment with search keyword
 			parentFragmentManager.commit {
 				replace(
 					R.id.frame_container,
