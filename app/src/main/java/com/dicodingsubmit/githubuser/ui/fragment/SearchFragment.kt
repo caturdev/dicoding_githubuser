@@ -8,13 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
 import com.dicodingsubmit.githubuser.data.local.entity.HistoryEntity
 import com.dicodingsubmit.githubuser.databinding.FragmentSearchBinding
+import com.dicodingsubmit.githubuser.ui.adapter.HistoryAdapter
+import com.dicodingsubmit.githubuser.ui.adapter.utils.HistoryClickListener
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), HistoryClickListener {
 
 	private lateinit var binding: FragmentSearchBinding
 
@@ -77,6 +81,46 @@ class SearchFragment : Fragment() {
 			}
 		}
 
+		val layoutManager = LinearLayoutManager(activity)
+		binding.rvHistory.layoutManager = layoutManager
+
+		val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+		binding.rvHistory.addItemDecoration(itemDecoration)
+
+		// init theme mode
+		mainViewModel.getAllHistory().observe(viewLifecycleOwner) { historyData ->
+			val historyList: List<String> = historyData.map { data -> data.keyword }
+			setHistoryListData(historyList)
+		}
+
+	}
+
+	private fun setHistoryListData(history: List<String>) {
+		val adapter = HistoryAdapter()
+
+		adapter.submitList(history)
+
+		// set click listener
+		adapter.listener = this
+
+		binding.rvHistory.adapter = adapter
+	}
+
+	override fun onItemClicked(view: View, keyword: String) {
+		val homeFragment = HomeFragment()
+		val bundle = Bundle()
+		bundle.putString(HomeFragment.EXTRA_USERNAME_SEARCH, keyword)
+		homeFragment.arguments = bundle
+		// save keyword at data store: for init keyword search when start app
+		mainViewModel.saveKeyword(keyword)
+		// go back to home fragment with search keyword
+		parentFragmentManager.commit {
+			replace(
+				R.id.frame_container,
+				homeFragment,
+				HomeFragment::class.java.simpleName
+			)
+		}
 	}
 
 }

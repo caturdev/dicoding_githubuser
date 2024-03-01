@@ -47,7 +47,7 @@ class MainViewModel(
 		}
 	}
 
-	fun getAllHistory(data: HistoryEntity) = mHistoryRepo.insert(data)
+	fun getAllHistory() = mHistoryRepo.getAll()
 
 	fun saveHistory(data: HistoryEntity) = mHistoryRepo.insert(data)
 
