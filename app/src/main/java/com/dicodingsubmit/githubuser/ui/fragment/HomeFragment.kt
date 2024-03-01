@@ -1,10 +1,10 @@
 package com.dicodingsubmit.githubuser.ui.fragment
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -14,13 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
+import com.dicodingsubmit.githubuser.data.store.SettingPreferences
+import com.dicodingsubmit.githubuser.data.store.dataStore
 import com.dicodingsubmit.githubuser.databinding.FragmentHomeBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
 
 class HomeFragment : Fragment() {
 
 	private lateinit var binding: FragmentHomeBinding
-	private val mainViewModel: MainViewModel by viewModels<MainViewModel>()
+	private var isDaskMode: Boolean = false
+
+	private val mainViewModel: MainViewModel by viewModels<MainViewModel> {
+		MainViewModel.Factory(SettingPreferences.getInstance((activity as AppCompatActivity).application.dataStore))
+	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -37,6 +43,19 @@ class HomeFragment : Fragment() {
 
 		val fragmentManager = parentFragmentManager
 		val searchFragment = SearchFragment()
+
+		// init theme mode
+		mainViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
+			isDaskMode = isDarkModeActive
+
+			if (isDarkModeActive) {
+				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+				binding.toolbar.menu.findItem(R.id.menu_mode).setIcon(R.drawable.baseline_light_mode_24)
+			} else {
+				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+				binding.toolbar.menu.findItem(R.id.menu_mode).setIcon(R.drawable.baseline_dark_mode_24)
+			}
+		}
 
 		mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
 
@@ -69,15 +88,12 @@ class HomeFragment : Fragment() {
 			when (it.itemId) {
 				R.id.menu_mode -> {
 
-					val nightModeFlags =
-						requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-
-					if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
-						it.setIcon(R.drawable.baseline_mode_night_24)
+					if (!isDaskMode) {
 						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+						mainViewModel.saveThemeSetting(true)
 					} else {
-						it.setIcon(R.drawable.baseline_light_mode_24)
 						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+						mainViewModel.saveThemeSetting(false)
 					}
 
 				}
