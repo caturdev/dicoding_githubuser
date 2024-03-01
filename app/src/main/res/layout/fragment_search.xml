@@ -25,7 +25,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:padding="4dp"
-          app:boxBackgroundColor="@color/material_dynamic_neutral90"
+          app:boxBackgroundColor="?colorPrimaryDark"
           app:boxCornerRadiusBottomEnd="32dp"
           app:boxCornerRadiusBottomStart="32dp"
           app:boxCornerRadiusTopEnd="32dp"
