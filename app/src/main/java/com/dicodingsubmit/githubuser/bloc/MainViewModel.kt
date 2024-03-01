@@ -4,14 +4,30 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.data.remote.response.UserResponse
 import com.dicodingsubmit.githubuser.data.remote.retrofit.ApiConfig
+import com.dicodingsubmit.githubuser.data.store.SettingPreferences
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+	private val pref: SettingPreferences
+) : ViewModel() {
+
+	fun getThemeSettings(): LiveData<Boolean> {
+		return pref.getThemeSetting().asLiveData()
+	}
+
+	fun saveThemeSetting(isDarkModeActive: Boolean) {
+		viewModelScope.launch {
+			pref.saveThemeSetting(isDarkModeActive)
+		}
+	}
 
 	private val _users = MutableLiveData<List<UserItemResponse>>()
 	val users: LiveData<List<UserItemResponse>> = _users
