@@ -19,6 +19,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/white"
         app:title="@string/user_detail_header_title" />
 
   </com.google.android.material.appbar.AppBarLayout>
