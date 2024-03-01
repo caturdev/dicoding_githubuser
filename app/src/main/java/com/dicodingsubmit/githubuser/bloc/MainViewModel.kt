@@ -30,6 +30,16 @@ class MainViewModel(
 		}
 	}
 
+	fun getLastSearchKeyword(): LiveData<String> {
+		return pref.getLastSearchKeyword().asLiveData()
+	}
+
+	fun saveKeyword(keyword: String) {
+		viewModelScope.launch {
+			pref.saveKeyword(keyword)
+		}
+	}
+
 	private val _users = MutableLiveData<List<UserItemResponse>>()
 	val users: LiveData<List<UserItemResponse>> = _users
 

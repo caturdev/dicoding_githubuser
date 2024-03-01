@@ -57,6 +57,11 @@ class HomeFragment : Fragment() {
 			}
 		}
 
+		// init theme mode
+		mainViewModel.getLastSearchKeyword().observe(viewLifecycleOwner) { keyword: String ->
+			if (keyword.isNotEmpty()) mainViewModel.getUsers(keyword ?: "")
+		}
+
 		mainViewModel.users.observe(viewLifecycleOwner) { user -> setUserListData(user) }
 
 		if (arguments != null) {

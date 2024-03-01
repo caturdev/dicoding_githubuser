@@ -7,13 +7,21 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import com.dicodingsubmit.githubuser.R
+import com.dicodingsubmit.githubuser.bloc.MainViewModel
+import com.dicodingsubmit.githubuser.data.store.SettingPreferences
+import com.dicodingsubmit.githubuser.data.store.dataStore
 import com.dicodingsubmit.githubuser.databinding.FragmentSearchBinding
 
 
 class SearchFragment : Fragment() {
 
 	private lateinit var binding: FragmentSearchBinding
+
+	private val mainViewModel: MainViewModel by viewModels<MainViewModel> {
+		MainViewModel.Factory(SettingPreferences.getInstance((activity as AppCompatActivity).application.dataStore))
+	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -53,6 +61,8 @@ class SearchFragment : Fragment() {
 			bundle.putString(HomeFragment.EXTRA_USERNAME_SEARCH, usernameSearch)
 
 			homeFragment.arguments = bundle
+
+			mainViewModel.saveKeyword(usernameSearch)
 
 			parentFragmentManager.commit {
 				replace(
