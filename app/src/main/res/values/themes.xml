@@ -1,10 +1,10 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.DicodingSubmitGithubUser" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:windowBackground">@color/white</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="Base.Theme.DicodingSubmitGithubUser" parent="Theme.Material3.DayNight.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="android:windowBackground">@color/white</item>
+  </style>
 
-    <style name="Theme.DicodingSubmitGithubUser" parent="Base.Theme.DicodingSubmitGithubUser" />
+  <style name="Theme.DicodingSubmitGithubUser" parent="Base.Theme.DicodingSubmitGithubUser" />
 </resources>

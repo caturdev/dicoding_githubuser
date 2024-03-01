@@ -6,52 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.SearchFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+  <com.google.android.material.appbar.AppBarLayout
+      android:id="@+id/appbar"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:backgroundTint="?colorPrimary">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white">
+        android:layout_height="?attr/actionBarSize">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/search_bar_layout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="4dp"
+          app:boxBackgroundColor="@color/material_dynamic_neutral90"
+          app:boxCornerRadiusBottomEnd="32dp"
+          app:boxCornerRadiusBottomStart="32dp"
+          app:boxCornerRadiusTopEnd="32dp"
+          app:boxCornerRadiusTopStart="32dp"
+          app:boxStrokeColor="@color/material_dynamic_neutral80"
+          app:boxStrokeWidth="1dp"
+          app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/black"
+            android:hint="@string/hint_github_user_search_field"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textSize="12sp"
+            app:hintEnabled="false" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/search_bar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                app:boxBackgroundColor="@color/material_dynamic_neutral90"
-                app:boxCornerRadiusBottomEnd="32dp"
-                app:boxCornerRadiusBottomStart="32dp"
-                app:boxCornerRadiusTopEnd="32dp"
-                app:boxCornerRadiusTopStart="32dp"
-                app:boxStrokeColor="@color/material_dynamic_neutral80"
-                app:boxStrokeWidth="1dp"
-                app:hintEnabled="false">
+      </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/search_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/baseline_search_24"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/black"
-                    android:hint="@string/hint_github_user_search_field"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
-                    android:padding="12dp"
-                    android:textSize="12sp"
-                    app:hintEnabled="false" />
+    </androidx.appcompat.widget.Toolbar>
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
