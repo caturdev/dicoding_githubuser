@@ -1,5 +1,6 @@
 package com.dicodingsubmit.githubuser.bloc
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,18 +8,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.dicodingsubmit.githubuser.data.local.HistoryRepo
+import com.dicodingsubmit.githubuser.data.local.entity.HistoryEntity
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.data.remote.response.UserResponse
 import com.dicodingsubmit.githubuser.data.remote.retrofit.ApiConfig
 import com.dicodingsubmit.githubuser.data.store.SettingPreferences
+import com.dicodingsubmit.githubuser.data.store.dataStore
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(
+	private val application: Application,
 	private val pref: SettingPreferences
 ) : ViewModel() {
+
+	private val mHistoryRepo: HistoryRepo = HistoryRepo(application)
 
 	fun getThemeSettings(): LiveData<Boolean> {
 		return pref.getThemeSetting().asLiveData()
@@ -39,6 +46,10 @@ class MainViewModel(
 			pref.saveKeyword(keyword)
 		}
 	}
+
+	fun getAllHistory(data: HistoryEntity) = mHistoryRepo.insert(data)
+
+	fun saveHistory(data: HistoryEntity) = mHistoryRepo.insert(data)
 
 	private val _users = MutableLiveData<List<UserItemResponse>>()
 	val users: LiveData<List<UserItemResponse>> = _users
@@ -92,11 +103,14 @@ class MainViewModel(
 		})
 	}
 
-	class Factory(private val pref: SettingPreferences) : ViewModelProvider.Factory {
+	class Factory(
+		private val application: Application,
+	) : ViewModelProvider.Factory {
+		private val pref: SettingPreferences = SettingPreferences.getInstance(application.dataStore)
 
 		@Suppress("UNCHECKED_CAST")
 		override fun <T : ViewModel> create(modelClass: Class<T>): T =
-			MainViewModel(pref) as T
+			MainViewModel(application, pref) as T
 
 	}
 

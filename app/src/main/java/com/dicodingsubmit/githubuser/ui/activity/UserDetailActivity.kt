@@ -41,7 +41,7 @@ class UserDetailActivity : AppCompatActivity() {
 
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		supportActionBar?.setDisplayShowHomeEnabled(true)
-		
+
 		val githubUser = if (Build.VERSION.SDK_INT >= 33) {
 			intent.getParcelableExtra(GITHUB_USER, User::class.java)
 		} else {
@@ -72,7 +72,7 @@ class UserDetailActivity : AppCompatActivity() {
 				}
 			}.attach()
 
-			userDetailViewModel.getFavById(userData.id.toString() ?: "").observe(this) { favData ->
+			userDetailViewModel.getFavById(userData.id.toString()).observe(this) { favData ->
 				userFavData = favData
 
 				if (favData.isNotEmpty()) {

@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
-import com.dicodingsubmit.githubuser.data.store.SettingPreferences
-import com.dicodingsubmit.githubuser.data.store.dataStore
 import com.dicodingsubmit.githubuser.databinding.FragmentHomeBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
 
@@ -25,7 +23,7 @@ class HomeFragment : Fragment() {
 	private var isDaskMode: Boolean = false
 
 	private val mainViewModel: MainViewModel by viewModels<MainViewModel> {
-		MainViewModel.Factory(SettingPreferences.getInstance((activity as AppCompatActivity).application.dataStore))
+		MainViewModel.Factory((activity as AppCompatActivity).application)
 	}
 
 	override fun onCreateView(
