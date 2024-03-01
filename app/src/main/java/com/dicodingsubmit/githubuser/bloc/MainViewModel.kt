@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
@@ -79,6 +80,14 @@ class MainViewModel(
 			}
 
 		})
+	}
+
+	class Factory(private val pref: SettingPreferences) : ViewModelProvider.Factory {
+
+		@Suppress("UNCHECKED_CAST")
+		override fun <T : ViewModel> create(modelClass: Class<T>): T =
+			MainViewModel(pref) as T
+
 	}
 
 	companion object {

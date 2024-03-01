@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicodingsubmit.githubuser.R
@@ -14,12 +15,14 @@ import com.dicodingsubmit.githubuser.bloc.UserDetailViewModel
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.databinding.FragmentFavBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
-import com.dicodingsubmit.githubuser.utils.helper.ViewModelHelper
 
 class FavFragment : Fragment() {
 
 	private lateinit var binding: FragmentFavBinding
-	private lateinit var userDetailViewModel: UserDetailViewModel
+
+	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel> {
+		UserDetailViewModel.Factory((activity as AppCompatActivity).application)
+	}
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +34,6 @@ class FavFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
-		userDetailViewModel = ViewModelHelper.obtainUserDetailViewModel(activity as AppCompatActivity)
 
 		(activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 		(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)

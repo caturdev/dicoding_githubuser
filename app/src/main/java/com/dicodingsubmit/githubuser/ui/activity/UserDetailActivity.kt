@@ -3,6 +3,7 @@ package com.dicodingsubmit.githubuser.ui.activity
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +16,6 @@ import com.dicodingsubmit.githubuser.data.parcel.User
 import com.dicodingsubmit.githubuser.data.remote.response.UserDetailResponse
 import com.dicodingsubmit.githubuser.databinding.ActivityUserDetailBinding
 import com.dicodingsubmit.githubuser.ui.adapter.UserConnectionPagerAdapter
-import com.dicodingsubmit.githubuser.utils.helper.ViewModelHelper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -26,8 +26,10 @@ class UserDetailActivity : AppCompatActivity() {
 	private lateinit var userData: UserDetailResponse
 	private lateinit var userFavData: List<FavEntity>
 
-	private lateinit var userDetailViewModel: UserDetailViewModel
-  
+	private val userDetailViewModel: UserDetailViewModel by viewModels<UserDetailViewModel> {
+		UserDetailViewModel.Factory(this@UserDetailActivity.application)
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -39,9 +41,7 @@ class UserDetailActivity : AppCompatActivity() {
 
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		supportActionBar?.setDisplayShowHomeEnabled(true)
-
-		userDetailViewModel = ViewModelHelper.obtainUserDetailViewModel(this@UserDetailActivity)
-
+		
 		val githubUser = if (Build.VERSION.SDK_INT >= 33) {
 			intent.getParcelableExtra(GITHUB_USER, User::class.java)
 		} else {
