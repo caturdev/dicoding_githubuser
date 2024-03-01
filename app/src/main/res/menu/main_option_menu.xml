@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:menuCategory="container">
-        <item
-            android:id="@+id/menu1"
-            android:icon="@drawable/baseline_announcement_24"
-            android:title="@string/menu_1"
-            app:showAsAction="ifRoom" />
-    </group>
+  <group android:menuCategory="container">
+    <item
+        android:id="@+id/menu_mode"
+        android:icon="@drawable/baseline_mode_night_24"
+        android:title="@string/switch_mode_desc"
+        app:showAsAction="ifRoom" />
+  </group>
 </menu>

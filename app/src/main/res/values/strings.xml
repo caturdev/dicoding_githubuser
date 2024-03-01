@@ -11,4 +11,5 @@
   <string name="placeholder_location">location</string>
   <string name="placeholder_company">company</string>
   <string name="favorite_user_toolbar_title">Favorite User</string>
+  <string name="switch_mode_desc">switch mode</string>
 </resources>

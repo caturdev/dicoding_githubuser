@@ -15,10 +15,11 @@
       android:layout_height="wrap_content"
       android:backgroundTint="@color/primary">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:menu="@menu/main_option_menu"
         app:title="@string/toolbar_title"
         app:titleTextColor="@color/white" />
 
