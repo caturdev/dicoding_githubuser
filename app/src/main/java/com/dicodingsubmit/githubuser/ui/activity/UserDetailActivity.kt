@@ -134,6 +134,14 @@ class UserDetailActivity : AppCompatActivity() {
 		// show company data
 		binding.company.text = user.company
 
+		isLoading(false)
+		
+	}
+
+	private fun isLoading(condition: Boolean = true): Unit = if (condition) {
+		binding.imageLoadingIndicator.visibility = View.VISIBLE
+	} else {
+		binding.imageLoadingIndicator.visibility = View.GONE
 	}
 
 	companion object {

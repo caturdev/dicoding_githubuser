@@ -25,6 +25,17 @@
 
   </com.google.android.material.appbar.AppBarLayout>
 
+  <ProgressBar
+      android:id="@+id/image_loading_indicator"
+      android:layout_margin="15dp"
+      android:layout_marginBottom="10dp"
+      android:layout_width="wrap_content"
+      android:layout_height="140dp"
+      android:progressTint="@color/primary"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/appbar"
+      app:layout_constraintEnd_toEndOf="parent" />
+
   <de.hdodenhof.circleimageview.CircleImageView
       android:id="@+id/photo_profile"
       android:padding="10dp"
