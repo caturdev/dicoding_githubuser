@@ -60,17 +60,16 @@ class HomeFragment : Fragment() {
 				mainViewModel.getUsers(keyword ?: "")
 				binding.noDataLayer.visibility = View.GONE
 			} else {
+				isLoading(false)
 				binding.noDataLayer.visibility = View.VISIBLE
 			}
-			isLoading(false)
 		}
 
 		mainViewModel.users.observe(viewLifecycleOwner) { user ->
 			if (user.isNotEmpty()) {
 				setUserListData(user)
 				binding.noDataLayer.visibility = View.GONE
-			} else {
-				binding.noDataLayer.visibility = View.VISIBLE
+				isLoading(false)
 			}
 		}
 
