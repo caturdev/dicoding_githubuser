@@ -67,6 +67,7 @@ class SearchFragment : Fragment(), HistoryClickListener {
 
 			val moveIntent = Intent(requireContext(), MainActivity::class.java)
 			startActivity(moveIntent)
+			requireActivity().finish()
 
 		}
 
@@ -101,6 +102,7 @@ class SearchFragment : Fragment(), HistoryClickListener {
 
 		val moveIntent = Intent(requireContext(), MainActivity::class.java)
 		startActivity(moveIntent)
+		requireActivity().finish()
 	}
 
 }
