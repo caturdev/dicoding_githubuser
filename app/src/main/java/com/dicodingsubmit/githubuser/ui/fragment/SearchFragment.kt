@@ -1,5 +1,6 @@
 package com.dicodingsubmit.githubuser.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
 import com.dicodingsubmit.githubuser.data.local.entity.HistoryEntity
 import com.dicodingsubmit.githubuser.databinding.FragmentSearchBinding
+import com.dicodingsubmit.githubuser.ui.activity.MainActivity
 import com.dicodingsubmit.githubuser.ui.adapter.HistoryAdapter
 import com.dicodingsubmit.githubuser.ui.adapter.utils.HistoryClickListener
 
@@ -55,15 +57,7 @@ class SearchFragment : Fragment(), HistoryClickListener {
 		}
 
 		binding.searchBar.setOnClickListener {
-			val homeFragment = HomeFragment()
-
 			val usernameSearch = binding.searchBar.text.toString().trim()
-
-			val bundle = Bundle()
-
-			bundle.putString(HomeFragment.EXTRA_USERNAME_SEARCH, usernameSearch)
-
-			homeFragment.arguments = bundle
 
 			// save keyword at data store: for init keyword search when start app
 			mainViewModel.saveKeyword(usernameSearch)
@@ -71,14 +65,9 @@ class SearchFragment : Fragment(), HistoryClickListener {
 			// save search history
 			mainViewModel.saveHistory(HistoryEntity(0, usernameSearch))
 
-			// back to home fragment with search keyword
-			parentFragmentManager.commit {
-				replace(
-					R.id.frame_container,
-					homeFragment,
-					HomeFragment::class.java.simpleName
-				)
-			}
+			val moveIntent = Intent(requireContext(), MainActivity::class.java)
+			startActivity(moveIntent)
+
 		}
 
 		val layoutManager = LinearLayoutManager(activity)
@@ -107,20 +96,11 @@ class SearchFragment : Fragment(), HistoryClickListener {
 	}
 
 	override fun onItemClicked(view: View, keyword: String) {
-		val homeFragment = HomeFragment()
-		val bundle = Bundle()
-		bundle.putString(HomeFragment.EXTRA_USERNAME_SEARCH, keyword)
-		homeFragment.arguments = bundle
 		// save keyword at data store: for init keyword search when start app
 		mainViewModel.saveKeyword(keyword)
-		// go back to home fragment with search keyword
-		parentFragmentManager.commit {
-			replace(
-				R.id.frame_container,
-				homeFragment,
-				HomeFragment::class.java.simpleName
-			)
-		}
+
+		val moveIntent = Intent(requireContext(), MainActivity::class.java)
+		startActivity(moveIntent)
 	}
 
 }

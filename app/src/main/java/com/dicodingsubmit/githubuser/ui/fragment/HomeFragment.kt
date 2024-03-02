@@ -70,11 +70,6 @@ class HomeFragment : Fragment() {
 			}
 		}
 
-		if (arguments != null) {
-			val usernameSearch = arguments?.getString(EXTRA_USERNAME_SEARCH)
-			mainViewModel.getUsers(usernameSearch ?: "")
-		}
-
 		val layoutManager = LinearLayoutManager(activity)
 		binding.rvUser.layoutManager = layoutManager
 
@@ -125,7 +120,4 @@ class HomeFragment : Fragment() {
 		binding.lottieLoading.visibility = View.GONE
 	}
 
-	companion object {
-		const val EXTRA_USERNAME_SEARCH = "extra_username_search"
-	}
 }
