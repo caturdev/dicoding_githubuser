@@ -42,6 +42,10 @@ class UserDetailActivity : AppCompatActivity() {
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		supportActionBar?.setDisplayShowHomeEnabled(true)
 
+		binding.toolbar.setNavigationOnClickListener {
+			finish()
+		}
+
 		val githubUser = if (Build.VERSION.SDK_INT >= 33) {
 			intent.getParcelableExtra(GITHUB_USER, User::class.java)
 		} else {
