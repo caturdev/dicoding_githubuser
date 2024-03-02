@@ -22,7 +22,6 @@ class UserConnectionFragment : Fragment() {
 		UserDetailViewModel.Factory((activity as AppCompatActivity).application)
 	}
 
-
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -37,6 +36,9 @@ class UserConnectionFragment : Fragment() {
 
 		val username = arguments?.getString(GITHUB_USERNAME)
 		val position = arguments?.getInt(ARG_SECTION_NUMBER)
+
+		// loading section
+		binding.lottieLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
 
 		val layoutManager = LinearLayoutManager(activity)
 		binding.rvUserConnection.layoutManager = layoutManager
@@ -56,11 +58,19 @@ class UserConnectionFragment : Fragment() {
 
 		userDetailViewModel.followers.observe(viewLifecycleOwner) { users: List<UserItemResponse> ->
 			setUserFollow(users)
+			isLoading(false)
 		}
 		userDetailViewModel.following.observe(viewLifecycleOwner) { users: List<UserItemResponse> ->
 			setUserFollow(users)
+			isLoading(false)
 		}
 
+	}
+
+	private fun isLoading(condition: Boolean = true): Unit = if (condition) {
+		binding.lottieLoading.visibility = View.VISIBLE
+	} else {
+		binding.lottieLoading.visibility = View.GONE
 	}
 
 	private fun setUserFollow(users: List<UserItemResponse>): Unit {
