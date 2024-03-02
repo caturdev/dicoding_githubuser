@@ -17,7 +17,7 @@ interface HistoryDao {
 	@Delete
 	fun delete(favEntity: HistoryEntity)
 
-	@Query("SELECT * from history ORDER BY id ASC")
+	@Query("SELECT * from history ORDER BY id DESC")
 	fun getAll(): LiveData<List<HistoryEntity>>
 
 }
