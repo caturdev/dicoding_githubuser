@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.UserConnectionFragment">
 
-  <com.airbnb.lottie.LottieAnimationView
-      android:id="@+id/lottie_loading"
-      android:layout_width="150dp"
-      android:layout_height="150dp"
-      app:lottie_autoPlay="true"
-      app:lottie_loop="true"
+  <ProgressBar
+      android:id="@+id/loading_indicator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:progressTint="@color/primary"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
