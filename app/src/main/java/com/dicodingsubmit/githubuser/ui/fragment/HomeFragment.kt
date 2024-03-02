@@ -1,5 +1,6 @@
 package com.dicodingsubmit.githubuser.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +16,12 @@ import com.dicodingsubmit.githubuser.R
 import com.dicodingsubmit.githubuser.bloc.MainViewModel
 import com.dicodingsubmit.githubuser.data.remote.response.UserItemResponse
 import com.dicodingsubmit.githubuser.databinding.FragmentHomeBinding
+import com.dicodingsubmit.githubuser.ui.activity.SettingActivity
 import com.dicodingsubmit.githubuser.ui.adapter.UserAdapter
 
 class HomeFragment : Fragment() {
 
 	private lateinit var binding: FragmentHomeBinding
-	private var isDaskMode: Boolean = false
 
 	private val mainViewModel: MainViewModel by viewModels<MainViewModel> {
 		MainViewModel.Factory((activity as AppCompatActivity).application)
@@ -39,34 +40,37 @@ class HomeFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		binding.noDataLayer.visibility = View.GONE
+
 		val fragmentManager = parentFragmentManager
 		val searchFragment = SearchFragment()
 
-		// loading section
-		binding.lottieLoading.setAnimationFromUrl("https://lottie.host/f4aa2a91-160f-40bf-927a-85ca4d9f1074/HesvD4FI65.json")
-
 		// init theme mode
 		mainViewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
-			isDaskMode = isDarkModeActive
-
 			if (isDarkModeActive) {
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-				binding.toolbar.menu.findItem(R.id.menu_mode).setIcon(R.drawable.baseline_light_mode_24)
 			} else {
 				AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-				binding.toolbar.menu.findItem(R.id.menu_mode).setIcon(R.drawable.baseline_dark_mode_24)
 			}
 		}
 
 		// init theme mode
 		mainViewModel.getLastSearchKeyword().observe(viewLifecycleOwner) { keyword: String ->
-			if (keyword.isNotEmpty()) mainViewModel.getUsers(keyword ?: "")
+			if (keyword.isNotEmpty()) {
+				mainViewModel.getUsers(keyword ?: "")
+				binding.noDataLayer.visibility = View.GONE
+			} else {
+				binding.noDataLayer.visibility = View.VISIBLE
+			}
+			isLoading(false)
 		}
 
 		mainViewModel.users.observe(viewLifecycleOwner) { user ->
 			if (user.isNotEmpty()) {
 				setUserListData(user)
-				isLoading(false)
+				binding.noDataLayer.visibility = View.GONE
+			} else {
+				binding.noDataLayer.visibility = View.VISIBLE
 			}
 		}
 
@@ -93,15 +97,8 @@ class HomeFragment : Fragment() {
 		binding.toolbar.setOnMenuItemClickListener {
 			when (it.itemId) {
 				R.id.menu_mode -> {
-
-					if (!isDaskMode) {
-						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-						mainViewModel.saveThemeSetting(true)
-					} else {
-						AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-						mainViewModel.saveThemeSetting(false)
-					}
-
+					val moveIntent = Intent(requireContext(), SettingActivity::class.java)
+					startActivity(moveIntent)
 				}
 			}
 			true
@@ -115,9 +112,9 @@ class HomeFragment : Fragment() {
 	}
 
 	private fun isLoading(condition: Boolean = true): Unit = if (condition) {
-		binding.lottieLoading.visibility = View.VISIBLE
+		binding.loadingIndicator.visibility = View.VISIBLE
 	} else {
-		binding.lottieLoading.visibility = View.GONE
+		binding.loadingIndicator.visibility = View.GONE
 	}
 
 }
