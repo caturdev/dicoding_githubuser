@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.SettingActivity">
+
+  <com.google.android.material.appbar.AppBarLayout
+      android:id="@id/appbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:backgroundTint="?colorPrimary"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="@string/setting_header_title"
+        app:titleTextColor="@color/white" />
+
+  </com.google.android.material.appbar.AppBarLayout>
+
+  <ImageView
+      android:id="@+id/setting_mode_icon"
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:contentDescription="@string/icon_switch_mode"
+      android:src="@drawable/baseline_dark_mode_24"
+      app:layout_constraintBottom_toTopOf="@id/setting_title"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/guideline2"
+      app:tint="?colorAccent" />
+
+  <TextView
+      android:id="@+id/setting_title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="@string/switch_light_mode"
+      app:layout_constraintBottom_toTopOf="@+id/switch_theme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/setting_mode_icon" />
+
+  <com.google.android.material.switchmaterial.SwitchMaterial
+      android:id="@+id/switch_theme"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toTopOf="@+id/guideline3"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/setting_title" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="250dp" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintGuide_begin="500dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
