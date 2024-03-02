@@ -18,7 +18,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
       <com.google.android.material.textfield.TextInputLayout
           android:id="@+id/search_bar_layout"
@@ -40,7 +41,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/baseline_search_24"
             android:drawablePadding="10dp"
-            android:drawableTint="@color/black"
+            android:drawableTint="@color/white"
             android:hint="@string/hint_github_user_search_field"
             android:inputType="textPersonName"
             android:maxLines="1"

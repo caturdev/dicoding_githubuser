@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/favorite_user_toolbar_title"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
   </com.google.android.material.appbar.AppBarLayout>
 

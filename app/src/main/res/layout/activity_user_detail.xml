@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        app:title="@string/user_detail_header_title" />
+        app:title="@string/user_detail_header_title"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
   </com.google.android.material.appbar.AppBarLayout>
 

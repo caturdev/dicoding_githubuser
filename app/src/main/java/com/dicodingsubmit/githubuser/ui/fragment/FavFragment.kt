@@ -24,6 +24,22 @@ class FavFragment : Fragment() {
 		UserDetailViewModel.Factory((activity as AppCompatActivity).application)
 	}
 
+	override fun onResume() {
+		super.onResume()
+
+		userDetailViewModel.getAllFav().observe(viewLifecycleOwner) { favData ->
+			val userItemList: List<UserItemResponse> = favData.map { data ->
+				UserItemResponse(
+					data.id,
+					data.username,
+					data.picture
+				)
+			}
+
+			setUserFavListData(userItemList)
+		}
+	}
+
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
