@@ -31,8 +31,6 @@
           app:boxCornerRadiusBottomStart="32dp"
           app:boxCornerRadiusTopEnd="32dp"
           app:boxCornerRadiusTopStart="32dp"
-          app:boxStrokeColor="@color/material_dynamic_neutral80"
-          app:boxStrokeWidth="1dp"
           app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -43,6 +41,7 @@
             android:drawablePadding="10dp"
             android:drawableTint="@color/white"
             android:hint="@string/hint_github_user_search_field"
+            android:textColor="@color/white"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:padding="12dp"
