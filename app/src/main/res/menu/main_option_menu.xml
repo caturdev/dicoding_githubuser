@@ -4,7 +4,7 @@
   <group android:menuCategory="container">
     <item
         android:id="@+id/menu_mode"
-        android:icon="@drawable/baseline_dark_mode_24"
+        android:icon="@drawable/baseline_settings_24"
         android:title="@string/switch_mode_desc"
         app:showAsAction="ifRoom" />
   </group>
