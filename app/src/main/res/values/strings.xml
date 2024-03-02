@@ -6,11 +6,16 @@
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="hint_github_user_search_field">Masukkan nama user github</string>
   <string name="back_button_desc">button kembali</string>
-  <string name="placeholder_name">name</string>
-  <string name="placeholder_username">username</string>
-  <string name="placeholder_location">location</string>
-  <string name="placeholder_company">company</string>
+  <string name="placeholder_name">no name</string>
+  <string name="placeholder_username">no username</string>
+  <string name="placeholder_location">no location</string>
+  <string name="placeholder_company">no company</string>
   <string name="favorite_user_toolbar_title">Favorite User</string>
   <string name="switch_mode_desc">switch mode</string>
   <string name="user_detail_header_title">Profile</string>
+  <string name="setting_header_title">Setting</string>
+  <string name="switch_dark_mode">Switch Dark Mode</string>
+  <string name="switch_light_mode">Switch Light Mode</string>
+  <string name="icon_switch_mode">icon switch mode</string>
+  <string name="empty_layer_desc">Tidak ada data untuk ditampilkan, silahkan cari user terlebih dahulu</string>
 </resources>
